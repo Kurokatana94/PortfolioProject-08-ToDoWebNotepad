@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div class="mt-5">
+  <div class="center-items container row">
+    <div class="input-group mb-3 col-md-8 offset-md-6 my-3">
+      <input type="text" class="form-control" id="add-input" placeholder="Type your to-do goal here..." aria-label="To-do goal" aria-describedby="add-button">
+      <button class="btn btn-primary" id="add-button" type="button">Add</button>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <ul class="list-container">
+    <template id="list-item">
+      <li class="row my-3" style="border-radius: 10px; border: 1px solid rgb(80, 176, 255);">
+        <div class="col-md-10 d-flex align-items-center">
+          <span class="item-text" style="font-size: 150%;"></span>
+        </div>
+        <div class="col-md-2 right-align">
+          <div>
+            <a type="button" class="check-btn"><i class="bi bi-check2-circle"></i></a>
+          </div>
+          <div class="ms-md-2">
+            <a type="button" class="delete-btn"><i class="bi bi-x-circle-fill"></i></a>
+          </div>
+        </div>
+      </li>
+    </template>
+  </ul>
+</div>
+{% endblock %}
