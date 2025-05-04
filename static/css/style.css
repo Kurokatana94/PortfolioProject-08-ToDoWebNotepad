@@ -1,3 +1,4 @@
+/* General Styles */
 .center-items {
     display: flex;
     justify-content: center;
@@ -16,6 +17,7 @@
     transform: translateY(-50%);
 }
 
+/* Buttons */
 .delete-btn{
     color: rgb(255, 0, 0);
     font-size: 1.5rem;
@@ -49,3 +51,22 @@ body.dark-mode {
   --bg-color: #121212;
   --text-color: #ffffff;
 }
+
+/* Footer */
+html, body {
+    height: 100%;
+    margin: 0;
+  }
+  
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  main {
+    flex: 1;
+  }
+  
+  footer {
+    text-align: center;
+  }

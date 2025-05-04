@@ -3,23 +3,37 @@ const addInput = document.querySelector("#add-input");
 const addButton = document.querySelector("#add-button");
 const listTemplate = document.querySelector('#list-item');
 
-//Load list from localStorage
+// Load the list from localStorage when the page loads
 function loadList() {
     const stored = localStorage.getItem('todoList');
     if (stored) {
         const items = JSON.parse(stored);
-        items.forEach(text => {
+        items.forEach(({ text, checked }) => {
             const clone = listTemplate.content.cloneNode(true).querySelector('li');
             clone.querySelector('.item-text').textContent = text;
 
+            // Apply checked style
+            if (checked) {
+                clone.style.setProperty('border-color', 'rgb(0, 202, 0)', 'important');
+                clone.style.setProperty('border-width', '2px', 'important');
+            }
+
+            // Add event listener to the check button
             const checkButton = clone.querySelector('.check-btn');
             if (checkButton) {
                 checkButton.addEventListener('click', function () {
                     const target = this.closest('li');
-                    target.style.setProperty('border-color', 'rgb(0, 202, 0)', 'important');
-                    target.style.setProperty('border-width', '2px', 'important');
+                    if (target.style.borderColor === 'rgb(0, 202, 0)') {
+                        target.style.setProperty('border-color', 'rgb(80, 176, 255)', 'important');
+                        target.style.setProperty('border-width', '1px', 'important');
+                    } else {
+                        target.style.setProperty('border-color', 'rgb(0, 202, 0)', 'important');
+                        target.style.setProperty('border-width', '2px', 'important');
+                    }
+                    saveList();
                 });
             }
+
             // Add event listener to the delete button
             const deleteButton = clone.querySelector(".delete-btn");
             if (deleteButton) {
@@ -27,10 +41,10 @@ function loadList() {
                     const target = this.closest('li');
                     // Remove the item from the todo list
                     todoList.removeChild(target);
-
                     saveList();
                 });
             }
+
             todoList.appendChild(clone);
         });
     }
@@ -40,7 +54,12 @@ function loadList() {
 document.addEventListener('DOMContentLoaded', loadList);
 
 function saveList() {
-    const items = Array.from(todoList.querySelectorAll('.item-text')).map(span => span.textContent);
+    const items = Array.from(todoList.querySelectorAll('li')).map(li => {
+        return {
+            text: li.querySelector('.item-text').textContent,
+            checked: li.style.borderColor === 'rgb(0, 202, 0)' // use a flag
+        };
+    });
     localStorage.setItem('todoList', JSON.stringify(items));
 }
 
@@ -56,8 +75,16 @@ function addItemToList() {
     if (checkButton) {
         checkButton.addEventListener('click', function () {
             const target = this.closest('li');
-            target.style.setProperty('border-color', 'rgb(0, 202, 0)', 'important');
-            target.style.setProperty('border-width', '2px', 'important');
+            if (target.style.borderColor === 'rgb(0, 202, 0)') {
+                target.style.setProperty('border-color', 'rgb(80, 176, 255)', 'important');
+                target.style.setProperty('border-width', '1px', 'important');
+            }
+            else { 
+                target.style.setProperty('border-color', 'rgb(0, 202, 0)', 'important');
+                target.style.setProperty('border-width', '2px', 'important');
+            }
+
+            saveList();
         });
     }
 
